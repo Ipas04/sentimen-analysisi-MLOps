@@ -1,0 +1,41 @@
+stages:
+  # Stage untuk scraping data
+  scrape_data:
+    cmd: python scripts/scrape_data.py
+    deps:
+      - scripts/scrape_data.py
+    outs:
+      - data/raw/reviews.csv
+    persist: true
+
+  # Stage untuk preprocessing data
+  preprocess_data:
+    cmd: python scripts/preprocess_data.py
+    deps:
+      - data/raw/reviews.csv
+      - scripts/preprocess_data.py
+    outs:
+      - data/processed/reviews_cleaned.csv
+    persist: true
+
+  # Stage untuk melatih model
+  train_model:
+    cmd: python scripts/train_model.py
+    deps:
+      - data/processed/reviews_cleaned.csv
+      - scripts/train_model.py
+    outs:
+      - model/sentiment_model.pkl
+    persist: true
+    metrics:
+      - model/sentiment_model.pkl
+
+  # Stage untuk evaluasi model
+  evaluate_model:
+    cmd: python scripts/evaluate_model.py
+    deps:
+      - model/sentiment_model.pkl
+      - data/processed/reviews_cleaned.csv
+    outs:
+      - metrics/evaluation_report.json
+    persist: true

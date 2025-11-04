@@ -1,0 +1,35 @@
+# config.yaml
+
+# Database Configuration
+database:
+  host: "mongodb://localhost:27017/"
+  db_name: "playstore_reviews"
+  collection_name: "reviews"
+
+# Model Configuration
+model:
+  path: "model/sentiment_model.pkl"  # Path untuk model yang dilatih
+  type: "tensorflow"  # Jenis model yang digunakan (bisa scikit-learn, tensorflow, atau pytorch)
+  retraining_frequency: "monthly"  # Frekuensi retraining model (daily, weekly, monthly)
+
+# API Configuration
+api:
+  host: "0.0.0.0"  # Alamat host API
+  port: 8000  # Port untuk FastAPI
+  base_url: "/predict"  # Endpoint untuk prediksi sentimen
+
+# Scraping Configuration
+scraping:
+  app_ids: 
+    - "com.bca"
+    - "src.com.bni"
+    - "id.co.bri.brimo"
+    - "com.bsm.activity2"
+  review_count: 1000  # Jumlah ulasan yang ingin diambil
+  language: "id"  # Bahasa untuk scraping
+  country: "id"  # Negara untuk scraping
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Tingkat logging (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  log_file: "app.log"  # File log untuk mencatat aktivitas aplikasi

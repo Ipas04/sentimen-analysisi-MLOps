@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  # Layanan untuk menjalankan API
+  sentiment-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/
+    depends_on:
+      - mongo
+
+  # Layanan MongoDB
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+      
+  # Layanan untuk MLflow (jika kamu ingin memantau eksperimen)
+  mlflow:
+    image: tensorflow/tensorflow:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlflow/mlruns
+
+volumes:
+  mongo_data:
